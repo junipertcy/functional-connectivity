@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# UNTITLED -- UNTITLED
+# functional-connectivity -- Sensing functional connectivity in the brain, in Python
 #
 # Copyright (C) 2023-2024 Tzu-Chi Yen <tzuchi.yen@colorado.edu>
 #
@@ -17,15 +17,24 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
-import numpy as np
-import numba as nb
+from .utils import *
+
+__package__ = 'functional_connectivity'
+__title__ = 'functional_connectivity: sensing functional connectivity in the brain, in Python.'
+__description__ = ''
+__copyright__ = 'Copyright (C) 2023-2024 Tzu-Chi Yen'
+__license__ = "LGPL version 3 or above"
+__author__ = """\n""".join([
+    'Tzu-Chi Yen <tzuchi.yen@colorado.edu>',
+])
+__URL__ = ""
+__version__ = '0.1.0'
+__release__ = '0.1'
 
 
-@nb.njit(parallel=True)
-def sum_chunk(arr, n_bins=4):
-    container = np.zeros((arr.shape[0], arr.shape[1] // n_bins), dtype=np.float64)
-    n = container.shape[1]
-    for i in nb.prange(n):
-        for j in range(n_bins):
-            container[:, i] += arr[:, i * n_bins + j]
-    return container
+__all__ = [
+    "__author__",
+    "__URL__",
+    "__version__",
+    "__copyright__"
+]

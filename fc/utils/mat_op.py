@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# UNTITLED -- UNTITLED
+# functional-connectivity -- Sensing functional connectivity in the brain, in Python
 #
 # Copyright (C) 2023-2024 Tzu-Chi Yen <tzuchi.yen@colorado.edu>
 #
@@ -17,3 +17,15 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
+import numpy as np
+import numba as nb
+
+
+@nb.njit(parallel=True)
+def sum_chunk(arr, n_bins=4):
+    container = np.zeros((arr.shape[0], arr.shape[1] // n_bins), dtype=np.float64)
+    n = container.shape[1]
+    for i in nb.prange(n):
+        for j in range(n_bins):
+            container[:, i] += arr[:, i * n_bins + j]
+    return container

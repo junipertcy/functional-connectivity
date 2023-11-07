@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# UNTITLED -- UNTITLED
+# functional-connectivity -- Sensing functional connectivity in the brain, in Python
 #
 # Copyright (C) 2023-2024 Tzu-Chi Yen <tzuchi.yen@colorado.edu>
 #
