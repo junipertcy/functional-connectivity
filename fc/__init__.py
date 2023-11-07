@@ -28,7 +28,7 @@ __author__ = """\n""".join([
     'Tzu-Chi Yen <tzuchi.yen@colorado.edu>',
 ])
 __URL__ = ""
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 __release__ = '0.1'
 
 

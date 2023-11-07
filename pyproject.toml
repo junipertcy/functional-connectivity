@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "kavli-project"
+name = "functional-connectivity"
 version = "0.1.0"
-description = "Code repository for a Kavli project"
+description = "Sensing functional connectivity in the brain, in Python"
 authors = ["junipertcy <tzuchi.yen@colorado.edu>"]
 license = "LGPL-2.1"
 readme = "README.md"

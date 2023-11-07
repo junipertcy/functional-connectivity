@@ -31,12 +31,12 @@ DOCLINES = (__doc__ or '').split("\n")
 
 PROJECT_ROOT = dirname(realpath(__file__))
 
-REQUIREMENTS_FILE = join(PROJECT_ROOT, 'requirements.txt')
+# REQUIREMENTS_FILE = join(PROJECT_ROOT, 'requirements.txt')
 
-with open(REQUIREMENTS_FILE) as f:
-    install_reqs = f.read().splitlines()
+# with open(REQUIREMENTS_FILE) as f:
+#     install_reqs = f.read().splitlines()
 
-install_reqs.append('setuptools')
+# install_reqs.append('setuptools')
 
 setup(
     name='functional-connectivity',
@@ -49,19 +49,17 @@ setup(
     package_dir={"": "."},
     packages=find_packages(where="."),
     package_data={
-        'simplicial_test': [
-            'COPYING',
-            'COPYING.LESS',
-            'README.rst',
-            'requirements.txt',
+        'functional-connectivity': [
+            'LICENSE',
+            'README.md',
         ]},
-    include_package_data=True,
-    install_requires=install_reqs,
+    include_package_data=False,
+    # install_requires=install_reqs,
     extras_require={
         'test': ['pytest'],
         'docs': ['sphinx']
     },
-    url='https://github.com/junipertcy/simplicial-test',
+    url='https://github.com/junipertcy/functional-connectivity',
     platforms=["Windows", "Linux", "Solaris", "Mac OS-X", "Unix"],
     test_suite='pytest',
     python_requires='>=3.7',
@@ -74,23 +72,16 @@ setup(
         'Operating System :: POSIX',
         'Operating System :: Unix',
         'Operating System :: MacOS',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
         'Programming Language :: Python :: 3 :: Only',
         'Topic :: Scientific/Engineering',
         'Topic :: Software Development :: Libraries',
     ],
     keywords=[
-        'simplicial-test',
-        'simplicial complex',
-        'degree-size sequence',
-        'simplex',
-        'topological data analysis',
-        'topology',
-        'recursive algorithm',
-        'fixed-parameter tractable',
-        'realizability',
+        'functional-connectivity',
+        'keywords-TBD',
     ],
     project_urls={
         'Source Code': 'https://github.com/junipertcy/functional-connectivity',
