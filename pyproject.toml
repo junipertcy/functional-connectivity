@@ -8,7 +8,6 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.13"
-dandi = "^0.56.2"
 urllib3 = "1.26.9"
 matplotlib = "^3.8.0"
 numpy = "^1.26.1"
@@ -18,11 +17,17 @@ loky = "^3.4.1"
 xarray = "^2023.10.1"
 jupyterlab = "^4.0.7"
 nwbwidgets = "^0.11.3"
+dandi = "^0.57.0"
 h5py = "^3.10.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.3"
 click = "^8.1.7"
+
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "primary"
 
 [build-system]
 requires = ["poetry-core"]
