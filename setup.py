@@ -85,5 +85,6 @@ setup(
     ],
     project_urls={
         'Source Code': 'https://github.com/junipertcy/functional-connectivity',
+        'Docs': 'https://docs.netscied.tw/functional-connectivity/index.html'
     },
 )

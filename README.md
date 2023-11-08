@@ -20,6 +20,12 @@ First steps
 To set up the project, just hit `make`.
 
 
+Development
+-----------
+Remember that `./docs` contains [the documentation](https://docs.netscied.tw/functional-connectivity/index.html) of this library.
+You would need AWS credentials to be able to execute `./docs/deploy.sh`.
+
+
 
 Acknowledgement
 ---------------

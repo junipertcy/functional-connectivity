@@ -23,6 +23,7 @@ h5py = "^3.10.0"
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.3"
 click = "^8.1.7"
+sphinx = "^7.2.6"
 
 
 [[tool.poetry.source]]
