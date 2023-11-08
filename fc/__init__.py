@@ -36,5 +36,5 @@ __all__ = [
     "__author__",
     "__URL__",
     "__version__",
-    "__copyright__"
+    "__copyright__",
 ]
