@@ -31,7 +31,9 @@ You would need AWS credentials to be able to execute `./docs/deploy.sh`.
 
 Acknowledgement
 ---------------
-The functional-connectivity library is supported by The Kavli Foundation. 
+The functional-connectivity library is supported by [The Kavli Foundation](https://www.kavlifoundation.org/). 
 The authors want to thank Rebecca Morrison and Stephen Becker ([@stephenbeckr](https://github.com/stephenbeckr)) for inspirations. 
 
-We also want to thank the authors in [cvxgrp/strat_models](https://github.com/cvxgrp/strat_models).
+We also want to thank the authors in these software implementations:
+* [cvxgrp/strat_models](https://github.com/cvxgrp/strat_models)
+* [GalSha/GLASSO_Framework](https://github.com/GalSha/GLASSO_Framework): [arXiv (2023)](https://arxiv.org/abs/2205.10027)
