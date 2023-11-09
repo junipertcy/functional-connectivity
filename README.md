@@ -1,4 +1,6 @@
-[![python](https://img.shields.io/pypi/v/functional-connectivity)](https://pypi.org/project/functional-connectivity/)
+[![PythonVersion](https://img.shields.io/pypi/pyversions/functional-connectivity.svg)](https://pypi.org/project/functional-connectivity/)
+[![PyPI](https://img.shields.io/pypi/v/functional-connectivity)](https://pypi.org/project/functional-connectivity/)
+[![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![license](https://img.shields.io/badge/license-LGPL-green.svg?style=flat)](https://github.com/junipertcy/functional-connectivity/blob/master/LICENSE)
 
 
