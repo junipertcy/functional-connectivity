@@ -47,4 +47,4 @@ We also want to thank the authors in these software implementations:
 
 License
 -------
-**functional-connectivity** is open-source and licensed under the [GNU Lesser General Public License v2.1](https://www.gnu.org/licenses/lgpl-3.0.en.html).
+**functional-connectivity** is open-source and licensed under the [GNU Lesser General Public License v3.0](https://www.gnu.org/licenses/lgpl-3.0.en.html).
