@@ -35,7 +35,7 @@ jobs:
           mkdir -p test-sdist
           cd test-sdist
           python -m venv venv-sdist
-          venv-sdist/bin/python -m pip install ../dist/functional_connectivity-*.tar.gz
+          venv-sdist/bin/python -m pip install ../dist/functional-connectivity-*.tar.gz
           venv-sdist/bin/python -c "import functional_connectivity"
 
       - name: Check wheel install and imports
