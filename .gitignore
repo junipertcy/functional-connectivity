@@ -1,5 +1,7 @@
 # Custom stuff
 playground/
+test-sdist/
+test-wheel/
 *_version.py
 
 # Byte-compiled / optimized / DLL files

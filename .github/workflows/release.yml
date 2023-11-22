@@ -35,7 +35,7 @@ jobs:
           mkdir -p test-sdist
           cd test-sdist
           python -m venv venv-sdist
-          venv-sdist/bin/python -m pip install ../dist/functional_connectivity-*.tar.gz
+          venv-sdist/bin/python -m pip install ../dist/functional-connectivity-*.tar.gz
           venv-sdist/bin/python -c "import functional_connectivity"
 
       - name: Check wheel install and imports
@@ -47,7 +47,7 @@ jobs:
           venv-wheel/bin/python -c "import functional_connectivity"
 
       - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@v1.4.2
+        uses: pypa/gh-action-pypi-publish@v1.8.10
         with:
-            user: __token__,
+            user: __token__
             password: ${{ secrets.PYPI_TOKEN }}
