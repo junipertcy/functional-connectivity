@@ -64,27 +64,12 @@ setup(
     test_suite='pytest',
     python_requires='>=3.7',
     classifiers=[
-        'Development Status :: 5 - Production/Stable',
-        'Intended Audience :: Science/Research',
-        'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',
-        'Natural Language :: English',
-        'Operating System :: Microsoft :: Windows',
-        'Operating System :: POSIX',
-        'Operating System :: Unix',
-        'Operating System :: MacOS',
-        'Programming Language :: Python :: 3.10',
-        'Programming Language :: Python :: 3.11',
-        'Programming Language :: Python :: 3.12',
-        'Programming Language :: Python :: 3 :: Only',
-        'Topic :: Scientific/Engineering',
-        'Topic :: Software Development :: Libraries',
+
     ],
     keywords=[
-        'functional-connectivity',
-        'keywords-TBD',
+
     ],
     project_urls={
-        'Source Code': 'https://github.com/junipertcy/functional-connectivity',
-        'Docs': 'https://docs.netscied.tw/functional-connectivity/index.html'
+
     },
 )

@@ -1,35 +1,62 @@
-[tool.poetry]
-name = "functional-connectivity"
-version = "0.1.0"
-description = "Sensing functional connectivity in the brain, in Python"
-authors = ["junipertcy <tzuchi.yen@colorado.edu>"]
-license = "LGPL-3.0"
-readme = "README.md"
-
-[tool.poetry.dependencies]
-python = ">=3.9,<3.13"
-urllib3 = "1.26.9"
-matplotlib = "^3.8.0"
-numpy = "^1.26.1"
-scikit-learn = "^1.3.2"
-numba = "^0.58.1"
-loky = "^3.4.1"
-xarray = "^2023.10.1"
-jupyterlab = "^4.0.7"
-nwbwidgets = "^0.11.3"
-dandi = "^0.57.0"
-h5py = "^3.10.0"
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^7.4.3"
-click = "^8.1.7"
-sphinx = "^7.2.6"
-
-
-[[tool.poetry.source]]
-name = "PyPI"
-priority = "primary"
-
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools>=45", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "functional-connectivity"
+authors = [{ name = "Tzu-Chi Yen", email = "tzuchi.yen@colorado.edu" }]
+description = "Sensing functional connectivity in the brain, in Python"
+requires-python = ">=3.10"
+keywords = ['functional-connectivity', 'convex-optimization', 'keywords-TBD']
+classifiers = [
+    'Development Status :: 5 - Production/Stable',
+    'Intended Audience :: Science/Research',
+    'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',
+    'Natural Language :: English',
+    'Operating System :: Microsoft :: Windows',
+    'Operating System :: POSIX',
+    'Operating System :: Unix',
+    'Operating System :: MacOS',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3 :: Only',
+    'Topic :: Scientific/Engineering',
+    'Topic :: Software Development :: Libraries',
+]
+
+dynamic = ["version"]
+
+[project.dependencies]
+urllib3 = ["1.26.9"]
+matplotlib = ["^3.8.0"]
+numpy = ["^1.26.1"]
+scikit-learn = ["^1.3.2"]
+numba = ["^0.58.1"]
+loky = ["^3.4.1"]
+xarray = ["^2023.10.1"]
+jupyterlab = ["^4.0.7"]
+nwbwidgets = ["^0.11.3"]
+dandi = ["^0.57.0"]
+h5py = ["^3.10.0"]
+
+
+[project.optional-dependencies]
+dev = ["pytest==7.4.3", "click==8.1.7", "sphinx==7.2.6"]
+
+[project.urls]
+repository = 'https://github.com/junipertcy/functional-connectivity'
+documentation = 'https://docs.netscied.tw/functional-connectivity/index.html'
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[tool.setuptools]
+packages = ["functional-connectivity"]
+
+[tool.setuptools.package-data]
+"outlines" = ["py.typed"]
+
+[tool.setuptools_scm]
+write_to = "functional-connectivity/_version.py"

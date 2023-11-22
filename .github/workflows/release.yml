@@ -1,13 +1,14 @@
 
-name: Release to PyPI
+name: Release
 
 on:
-  push:
-    branches:
-      - main
+    release:
+      types:
+        - created
 
 jobs:
-  release:
+  release-job:
+    name: Build and publish on PyPI
     runs-on: ubuntu-latest
 
     steps:
@@ -19,11 +20,34 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Build and publish
+      - name: Build sdist and wheel
         run: |
-          python setup.py sdist bdist_wheel
-          pip install twine
-          twine upload dist/*
+          python -m pip install -U pip
+          python -m pip install build
+          python -m build
+
+      - name: Check that the package version matches the Release name
+        run: |
+          grep -Rq "^Version: ${GITHUB_REF:10}$" functional_connectivity.egg-info/PKG-INFO
+
+      - name: Check sdist install and imports
+        run: |
+          mkdir -p test-sdist
+          cd test-sdist
+          python -m venv venv-sdist
+          venv-sdist/bin/python -m pip install ../dist/functional_connectivity-*.tar.gz
+          venv-sdist/bin/python -c "import functional_connectivity"
+
+      - name: Check wheel install and imports
+        run: |
+          mkdir -p test-wheel
+          cd test-wheel
+          python -m venv venv-wheel
+          venv-wheel/bin/python -m pip install ../dist/functional_connectivity-*.whl
+          venv-wheel/bin/python -c "import functional_connectivity"
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@v1.4.2
+        with:
+            user: __token__,
+            password: ${{ secrets.PYPI_TOKEN }}
