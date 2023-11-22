@@ -3,7 +3,7 @@ name = "functional-connectivity"
 version = "0.1.0"
 description = "Sensing functional connectivity in the brain, in Python"
 authors = ["junipertcy <tzuchi.yen@colorado.edu>"]
-license = "LGPL-2.1"
+license = "LGPL-3.0"
 readme = "README.md"
 
 [tool.poetry.dependencies]

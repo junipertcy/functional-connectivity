@@ -17,9 +17,15 @@ Read it on: [arXiv](https://arxiv.org/) or [PRX Life](https://journals.aps.org/p
 * For software-related bugs, issues, or suggestions, please use [Issues](https://github.com/junipertcy/functional-connectivity/issues).
 
 
-First steps
------------
-To set up the project, just hit `make`.
+Installation
+------------
+**functional-connectivity** is available on PyPi:
+```
+pip install functional-connectivity
+```
+
+The dependencies needed to interact with Dandi are not installed by default. You will need to run:
+* SOMETHING
 
 
 Development
@@ -37,3 +43,8 @@ The authors want to thank Rebecca Morrison and Stephen Becker ([@stephenbeckr](h
 We also want to thank the authors in these software implementations:
 * [cvxgrp/strat_models](https://github.com/cvxgrp/strat_models)
 * [GalSha/GLASSO_Framework](https://github.com/GalSha/GLASSO_Framework): [arXiv (2023)](https://arxiv.org/abs/2205.10027)
+* [tpetaja1/tvgl](https://github.com/tpetaja1/tvgl): [KDD (2017)](https://dl.acm.org/doi/10.1145/3097983.3098037), time-varying GGM using ADMM and Python 2.7.
+
+License
+-------
+**functional-connectivity** is open-source and licensed under the [GNU Lesser General Public License v2.1](https://www.gnu.org/licenses/lgpl-3.0.en.html).
