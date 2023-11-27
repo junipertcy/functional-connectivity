@@ -170,3 +170,31 @@ class GraphicalGenerator:
             ).astype("float32")
         self.ss_list += [cal_S(samples).astype("float32")]
         self.samples_list += [samples.astype("float32")]
+
+
+class GraphicalGeneratorTV(GraphicalGenerator):
+    def __init__(
+        self,
+        N,
+        type="random",
+        type_param=0.1,
+        n_samples=10,
+        normalize=True,
+        batch=3,
+        constant=True,
+        id_addition=1,
+        precision_mat=None,
+    ):
+        super().__init__(
+            N,
+            type,
+            type_param,
+            n_samples,
+            normalize,
+            batch,
+            constant,
+            id_addition,
+            precision_mat,
+        )
+
+    pass

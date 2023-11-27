@@ -13,7 +13,7 @@ This is the software repository behind the paper:
 
 Read it on: [arXiv](https://arxiv.org/).
 
-* For full documentation, please visit [this site](https://docs.netscied.tw/functional-connectivity/index.html).
+* For full documentation, please visit [this site](https://docs.netscied.tw/fc/index.html).
 * For general Q&A, ideas, or other things, please visit [Discussions](https://github.com/junipertcy/functional-connectivity/discussions).
 * For software-related bugs, issues, or suggestions, please use [Issues](https://github.com/junipertcy/functional-connectivity/issues).
 
@@ -26,12 +26,12 @@ pip install functional-connectivity
 ```
 
 The dependencies needed to interact with Dandi are not installed by default. You will need to run:
-* SOMETHING
+* ```pip install --ignore-installed --no-binary=h5py h5py scipy numba```
 
 
 Development
 -----------
-Remember that `./docs` contains [the documentation](https://docs.netscied.tw/functional-connectivity/index.html) of this library.
+Remember that `./docs` contains [the documentation](https://docs.netscied.tw/fc/index.html) of this library.
 You would need AWS credentials to be able to execute `./docs/deploy.sh`.
 
 

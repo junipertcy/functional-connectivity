@@ -7,7 +7,7 @@ name = "functional-connectivity"
 authors = [{ name = "Tzu-Chi Yen", email = "tzuchi.yen@colorado.edu" }]
 description = "Sensing functional connectivity in the brain, in Python"
 requires-python = ">=3.10"
-keywords = ['functional-connectivity', 'convex-optimization', 'keywords-TBD']
+keywords = ['functional-connectivity', 'convex-optimization', 'graphical-models']
 classifiers = [
     'Development Status :: 5 - Production/Stable',
     'Intended Audience :: Science/Research',
@@ -39,6 +39,7 @@ dependencies = [
     "nwbwidgets==0.11.3",
     "dandi==0.57.0",
     "h5py==3.10.0",
+    'networkx==latest',
 ]
 
 [project.optional-dependencies]
