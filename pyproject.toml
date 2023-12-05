@@ -37,7 +37,7 @@ dependencies = [
     "xarray==2023.10.1",
     "jupyterlab==4.0.7",
     "nwbwidgets==0.11.3",
-    "dandi==0.57.0",
+    "dandi==0.58.1",
     "h5py==3.10.0",
     'networkx==latest',
 ]
