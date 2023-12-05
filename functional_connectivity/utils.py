@@ -32,6 +32,50 @@ def sum_chunk(arr, n_bins=4):
     return container
 
 
+def sum_spike_count(df, n_chunks, log=True, mean=True):
+    _max = 0
+    for i in range(len(df)):
+        if df.iloc[i]["spike_times"][-1] > _max:
+            _max = df.iloc[i]["spike_times"][-1]
+
+    diff = _max / n_chunks
+    container = np.zeros((len(df), n_chunks), dtype=np.float64)
+    n = container.shape[1]
+    for i in range(len(df)):
+        for j in range(n_chunks):
+            for spike in df.iloc[i]["spike_times"]:
+                if diff * j <= spike < diff * (j + 1):
+                    container[i, j] += 1
+    if log and mean:
+        container = np.log(container / diff)
+    if log and not mean:
+        container = np.log(container)
+    if not log and mean:
+        container = container / diff
+    return container
+
+def sum_spike_count_by_behavior(df, n_chunks, behavior, log=True, mean=True):
+    _max = 0
+    for i in range(len(df)):
+        if df.iloc[i]["spike_times"][-1] > _max:
+            _max = df.iloc[i]["spike_times"][-1]
+
+    diff = _max / n_chunks
+    container = np.zeros((len(df), n_chunks), dtype=np.float64)
+    n = container.shape[1]
+    for i in range(len(df)):
+        for j in range(n_chunks):
+            for spike in df.iloc[i]["spike_times"]:
+                if diff * j <= spike < diff * (j + 1):
+                    container[i, j] += 1
+    if log and mean:
+        container = np.log(container / diff)
+    if log and not mean:
+        container = np.log(container)
+    if not log and mean:
+        container = container / diff
+    return container
+
 def getLambdaMin(A):
     return np.linalg.eigvalsh(A)[0]
 
