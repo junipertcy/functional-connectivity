@@ -17,8 +17,6 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
-from .utils import *
-
 __package__ = 'functional_connectivity'
 __title__ = 'functional_connectivity: sensing functional connectivity in the brain, in Python.'
 __description__ = ''
@@ -38,3 +36,18 @@ __all__ = [
     "__version__",
     "__copyright__",
 ]
+
+from functional_connectivity import utils
+from functional_connectivity.utils import *
+
+from functional_connectivity import stats
+from functional_connectivity.stats import *
+
+from functional_connectivity import readwrite
+from functional_connectivity.readwrite import *
+
+from functional_connectivity import inference
+from functional_connectivity.inference import *
+
+from functional_connectivity import generators
+from functional_connectivity.generators import *

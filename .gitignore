@@ -1,5 +1,7 @@
 # Custom stuff
 playground/
+tvgl/
+play*.ipynb
 test-sdist/
 test-wheel/
 *_version.py

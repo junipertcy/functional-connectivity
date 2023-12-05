@@ -68,6 +68,8 @@ class DandiHandler:
         return self.nwbfile
 
     def get_behavior_labels(self, tag="behavior"):
+        if self.nwbfile is None:
+            self.read()
         self.behaviors = (
             self.nwbfile.processing[tag]
             .fields["data_interfaces"]["states"]
@@ -118,7 +120,7 @@ class DandiHandler:
                         behavioral_time_interval_incl[j][0]
                         <= spike
                         < behavioral_time_interval_incl[j][1]
-                    ):  # inclusive
+                    ):  
                         container[i, j] += 1
 
         neurons = [str(node) for node in range(len(self.units))]
