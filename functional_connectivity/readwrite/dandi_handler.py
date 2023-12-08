@@ -23,9 +23,13 @@ from pynwb import NWBHDF5IO
 import xarray as xr
 import pandas as pd
 import numpy as np
+# import numba as nb
+from numba import njit, prange
+from ..utils.utils import sizeof_fmt
 
 import warnings
-warnings.simplefilter('ignore')
+
+warnings.simplefilter("ignore")
 
 
 class DandiHandler:
@@ -53,6 +57,7 @@ class DandiHandler:
             self.s3_url = self.asset.get_content_url(
                 follow_redirects=1, strip_query=True
             )
+        print(f"This dataset is of size {sizeof_fmt(self.asset.get_metadata().contentSize)}.")
         return self.s3_url
 
     def download(self):
@@ -64,6 +69,8 @@ class DandiHandler:
             )
 
     def read(self):
+        if self.io is None:
+            self.download()
         self.nwbfile = self.io.read()
         return self.nwbfile
 
@@ -83,50 +90,51 @@ class DandiHandler:
         self.units = self.nwbfile.units.to_dataframe()
         return self.units
 
+    @staticmethod
+    @njit(parallel=True)
+    def _get_spike_counts(
+        n_time_intervals, _spike_times, bv_t_itvls
+    ):
+        _container = np.zeros(n_time_intervals, dtype=np.float64)
+        for j in prange(n_time_intervals):  # timestamp
+            for spike in _spike_times:
+                if bv_t_itvls[j][0] <= spike < bv_t_itvls[j][1]:
+                    _container[j] += 1
+        return _container
+
     def get_spike_counts(self, time_to_bin=100):
         if self.behaviors is None:
             self.get_behavior_labels()
 
         if self.units is None:
             self.get_units()
-
-        time_intervals = (
-            self.behaviors.loc[:, "stop_time"] - self.behaviors.loc[:, "start_time"]
-        ) // time_to_bin
-        behavioral_states = []
-        behavioral_time_interval_incl = []
+        
+        _loc = self.behaviors.loc
+        time_intervals = (_loc[:, "stop_time"] - _loc[:, "start_time"]) // time_to_bin
+        num_t_itvls = int(sum(time_intervals) + len(time_intervals))
+        behavioral_states = np.zeros(num_t_itvls, dtype='S16')
+        bv_t_itvls = np.zeros((num_t_itvls, 2), dtype=np.float64)
+        _counter = 0
         for i in range(len(time_intervals)):
-            start_t = self.behaviors.loc[i, "start_time"]
-            stop_t = self.behaviors.loc[i, "stop_time"]
+            start_t, stop_t = _loc[i, "start_time"], _loc[i, "stop_time"]
             for j in range(int(time_intervals.iloc[i]) + 1):
-                behavioral_states += [self.behaviors.loc[i, "label"]]
+                behavioral_states[_counter] = _loc[i, "label"]
+                bv_t_itvls[_counter, 0] = start_t + j * time_to_bin
                 if start_t + (j + 1) * time_to_bin > stop_t:
-                    behavioral_time_interval_incl += [
-                        (start_t + j * time_to_bin, stop_t)
-                    ]
+                    bv_t_itvls[_counter, 1] = stop_t
                 else:
-                    behavioral_time_interval_incl += [
-                        (start_t + j * time_to_bin, start_t + (j + 1) * time_to_bin)
-                    ]
+                    bv_t_itvls[_counter, 1] = start_t + (j + 1) * time_to_bin
+                _counter += 1
+        n_neurons = len(self.units)
+        n_time_intervals = len(bv_t_itvls)
 
-        container = np.zeros(
-            (len(self.units), len(behavioral_time_interval_incl)), dtype=np.float64
-        )
-        n = container.shape[1]
-        for i in range(len(self.units)):  # neuron locator
-            for j in range(len(behavioral_time_interval_incl)):  # timestamp
-                for spike in self.units.iloc[i]["spike_times"]:
-                    if (
-                        behavioral_time_interval_incl[j][0]
-                        <= spike
-                        < behavioral_time_interval_incl[j][1]
-                    ):  
-                        container[i, j] += 1
-
+        container = np.zeros((n_neurons, n_time_intervals), dtype=np.float64)
+        for i in range(n_neurons):
+            container[i, :] = self._get_spike_counts(n_time_intervals, self.units.iloc[:]["spike_times"][i], bv_t_itvls)
+        
         neurons = [str(node) for node in range(len(self.units))]
-
-        times = pd.IntervalIndex.from_tuples(
-            behavioral_time_interval_incl, closed="left"
+        times = pd.IntervalIndex.from_arrays(
+            bv_t_itvls[:, 0], bv_t_itvls[:, 1], closed="left"
         )
 
         self.data_array = xr.DataArray(
