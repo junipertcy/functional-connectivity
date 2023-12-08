@@ -18,14 +18,14 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 __package__ = 'functional_connectivity'
-__title__ = 'functional_connectivity: sensing functional connectivity in the brain, in Python.'
+__title__ = 'functional_connectivity: sensing the functional connectivity of the brain'
 __description__ = ''
 __copyright__ = 'Copyright (C) 2023-2024 Tzu-Chi Yen'
 __license__ = "LGPL version 3 or above"
 __author__ = """\n""".join([
     'Tzu-Chi Yen <tzuchi.yen@colorado.edu>',
 ])
-__URL__ = ""
+__URL__ = "https://github.com/junipertcy/functional-connectivity"
 __version__ = '0.1.1'
 __release__ = '0.1'
 
