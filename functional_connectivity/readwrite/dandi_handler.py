@@ -13,7 +13,7 @@ import warnings
 
 warnings.simplefilter("ignore")
 
-API_DENDIARCHIVE = "https://api.dandiarchive.org/api/dandisets/"
+API_DANDIARCHIVE = "https://api.dandiarchive.org/api/dandisets/"
 
 
 class DandiHandler:
@@ -31,7 +31,7 @@ class DandiHandler:
         self.data_array = None  # the spike counts data ("all data")
 
         self.metadata = dict()
-        self.metadata["ds_instance"] = requests.get(API_DENDIARCHIVE + dandiset_id + "/?format=json").json()
+        self.metadata["ds_instance"] = requests.get(API_DANDIARCHIVE + dandiset_id + "/?format=json").json()
 
         self.version2paths = dict()
 

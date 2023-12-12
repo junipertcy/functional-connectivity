@@ -1,4 +1,10 @@
 import networkx as nx
+
+try:
+    import graph_tool.all as gt
+except ImportError:
+    pass
+
 import numpy as np
 from scipy import sparse
 from dataclasses import dataclass
@@ -7,7 +13,7 @@ import datetime
 
 @dataclass
 class GraphStorage:
-    g: nx.Graph
+    g: nx.Graph or nx.DiGraph
     precision_mat: sparse.csr_matrix
     correlation_mat: sparse.csr_matrix
     adj_mat: sparse.csr_matrix
@@ -20,6 +26,10 @@ class GraphStorage:
 
     def __str__(self):
         return "GraphStorage(%s)" % self.g
+
+    def __repr__(self):
+        t = type(self.g)
+        return f"{t} object, with {self.g.number_of_nodes()} nodes and {self.g.number_of_edges()} edges, at {hex(id(self.g))}"
 
     # need a __repr__ method to print things out elegantly
 
