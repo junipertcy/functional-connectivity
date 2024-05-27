@@ -1,0 +1,17 @@
+urllib3 >= 2.2.1
+matplotlib >= 3.9.0
+numpy >= 1.26.4
+scikit-learn >= 1.5.0
+numba >= 0.59.1
+loky >= 3.4.1
+xarray >= 2024.5.0
+jupyterlab >= 4.2.1
+nwbwidgets >= 0.11.3
+dandi >= 0.62.1
+h5py >= 3.11.0
+networkx >= 3.3
+
+# Optional Dependencies - dev
+pytest >= 8.2.1
+click >= 8.1.7
+sphinx >= 7.3.7
