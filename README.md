@@ -34,7 +34,12 @@ Development
 Remember that `./docs` contains [the documentation](https://docs.netscied.tw/fc/index.html) of this library.
 You would need AWS credentials to be able to execute `./docs/deploy.sh`.
 
-
+To install the dependencies, use the following snippets.
+```
+pip install toml
+python scripts/pyproject2req.py
+pip install -r requirements.txt
+```
 
 Acknowledgement
 ---------------

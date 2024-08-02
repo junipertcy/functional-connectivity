@@ -1,4 +1,10 @@
 from typing import Any
+
+try:
+    import graph_tool.all as gt
+except ImportError:
+    pass
+
 import numpy as np
 import datetime
 import sys
@@ -6,11 +12,12 @@ import networkx as nx
 from scipy import sparse
 from scipy.sparse.linalg import inv
 from dataclasses import dataclass
+import datetime
 
 
 @dataclass
 class GraphStorage:
-    g: nx.Graph
+    g: nx.Graph or nx.DiGraph
     precision_mat: sparse.csr_matrix
     correlation_mat: sparse.csr_matrix
     adj_mat: sparse.csr_matrix
@@ -20,6 +27,13 @@ class GraphStorage:
         self.adj_mat = nx.adjacency_matrix(self.g)
         self.precision_mat = self.adj_mat + sparse.eye(self.adj_mat.shape[0])
         self.correlation_mat = sparse.linalg.inv(self.precision_mat)
+
+    def __str__(self):
+        return "GraphStorage(%s)" % self.g
+
+    def __repr__(self):
+        t = type(self.g)
+        return f"{t} object, with {self.g.number_of_nodes()} nodes and {self.g.number_of_edges()} edges, at {hex(id(self.g))}"
 
     # need a __repr__ method to print things out elegantly
 
@@ -31,8 +45,10 @@ class DataHandler(GraphStorage):
         self.network_files = []
         self.graphs = []
         self.num_nodes = 0
+        self.graph_paths = []
 
     def from_edgelist(self, path, comments="#", delimiter=" "):
+        self.graph_paths.append(path)
         g = nx.read_edgelist(
             path,
             comments=comments,
@@ -42,7 +58,7 @@ class DataHandler(GraphStorage):
         )
         if g.number_of_nodes() > self.num_nodes:
             self.num_nodes = g.number_of_nodes()
-        
+
         self.graphs.append(GraphStorage(g))
         return GraphStorage(g)
 
@@ -83,7 +99,7 @@ class DataHandler(GraphStorage):
     def generate_mvn(self, counts=[100, 100], save_to_file=False):
         if len(counts) is not len(self.graphs):
             raise ValueError("Counts do not match the number of networks.")
-        
+
         z = np.zeros((self.num_nodes, sum(counts)), dtype=np.float64)
         cumsum_z = np.cumsum(counts)
         for idx, (graph, count) in enumerate(zip(self.graphs, counts)):
@@ -93,13 +109,20 @@ class DataHandler(GraphStorage):
                 count,
             ).T
             if idx == 0:
-                z[:, :cumsum_z[idx]] = x
+                z[:, : cumsum_z[idx]] = x
             else:
-                z[:, cumsum_z[idx - 1]:cumsum_z[idx]] = x
-        # print(z)
-        # print(z.shape)
-        return z
+                z[:, cumsum_z[idx - 1] : cumsum_z[idx]] = x
 
+        if save_to_file:
+            _datetime = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+            filename = (
+                f"synthetic_data/{sum(counts)}-{'_'.join([str(i) for i in counts])}-n_{self.num_nodes}-{_datetime}.csv"
+            )
+
+            print("Saving data to %s" % filename)
+            graph_paths = " ".join(self.graph_paths)
+            np.savetxt(filename, z, delimiter=",", header=f"Data generated from networks:{graph_paths}")
+        return z
 
     """ Generates a data file (.csv) from networks previously defined in
         self.sigmas (covariance matrix) """
