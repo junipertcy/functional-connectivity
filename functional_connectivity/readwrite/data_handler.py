@@ -1,18 +1,15 @@
-from typing import Any
-
 try:
     import graph_tool.all as gt
 except ImportError:
     pass
 
-import numpy as np
 import datetime
 import sys
-import networkx as nx
-from scipy import sparse
-from scipy.sparse.linalg import inv
 from dataclasses import dataclass
-import datetime
+
+import networkx as nx
+import numpy as np
+from scipy import sparse
 
 
 @dataclass
@@ -115,13 +112,16 @@ class DataHandler(GraphStorage):
 
         if save_to_file:
             _datetime = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-            filename = (
-                f"synthetic_data/{sum(counts)}-{'_'.join([str(i) for i in counts])}-n_{self.num_nodes}-{_datetime}.csv"
-            )
+            filename = f"synthetic_data/{sum(counts)}-{'_'.join([str(i) for i in counts])}-n_{self.num_nodes}-{_datetime}.csv"
 
             print("Saving data to %s" % filename)
             graph_paths = " ".join(self.graph_paths)
-            np.savetxt(filename, z, delimiter=",", header=f"Data generated from networks:{graph_paths}")
+            np.savetxt(
+                filename,
+                z,
+                delimiter=",",
+                header=f"Data generated from networks:{graph_paths}",
+            )
         return z
 
     """ Generates a data file (.csv) from networks previously defined in
@@ -141,14 +141,14 @@ class DataHandler(GraphStorage):
                 z = x
             else:
                 z = np.vstack((z, x))
-        filename = "synthetic_data/%sx%s_%s.csv" % (
+        filename = "synthetic_data/{}x{}_{}.csv".format(
             total_count,
             self.dimension,
             datetime.datetime.now().strftime("%Y%m%d%H%M%S"),
         )
         header = "# Data generated from networks:\n# "
         for f, datacount in zip(self.network_files, counts):
-            header += "%s: %s, " % (f, datacount)
+            header += f"{f}: {datacount}, "
         header = header[:-2]
         header += "\n"
         with open(filename, "w") as new_file:
@@ -156,7 +156,7 @@ class DataHandler(GraphStorage):
             for datarow in z:
                 line = ""
                 for value in datarow:
-                    line += "," + str("{0:.4f}".format(value))
+                    line += "," + str(f"{value:.4f}")
                 line = line[1:]
                 new_file.write("%s\n" % line)
 
@@ -178,14 +178,14 @@ class DataHandler(GraphStorage):
 
     def write_network_results(self, datafile, solver, splitter=","):
         run_time = datetime.datetime.now()
-        results_name = "network_results/%s_la%sbe%s_%s.csv" % (
+        results_name = "network_results/{}_la{}be{}_{}.csv".format(
             solver.__class__.__name__,
             int(solver.lambd),
             int(solver.beta),
             run_time.strftime("%Y%m%d%H%M%S"),
         )
         """ Read features """
-        with open(datafile, "r") as f:
+        with open(datafile) as f:
             for i, line in enumerate(f):
                 if i == 0:
                     feats = line.strip().split(splitter)[1:]
@@ -213,7 +213,7 @@ class DataHandler(GraphStorage):
             f.write("Iterations to complete, %s\n\n" % solver.iteration)
             try:
                 f.write(
-                    "Temporal deviations ratio (max/mean), {0:.3f}\n".format(
+                    "Temporal deviations ratio (max/mean), {:.3f}\n".format(
                         solver.dev_ratio
                     )
                 )
@@ -222,13 +222,13 @@ class DataHandler(GraphStorage):
             f.write("Temporal deviations ")
             for dev in solver.deviations:
                 try:
-                    f.write(",{0:.3f}".format(dev))
+                    f.write(f",{dev:.3f}")
                 except ValueError:
                     f.write(",%s" % dev)
             f.write("\nNormalized Temporal deviations ")
             for dev in solver.norm_deviations:
                 try:
-                    f.write(",{0:.3f}".format(dev))
+                    f.write(f",{dev:.3f}")
                 except ValueError:
                     f.write(",%s" % dev)
             """ Write networks """
@@ -238,10 +238,10 @@ class DataHandler(GraphStorage):
                 f.write(solver.blockdates[k] + "\n")
                 if k > 0:
                     f.write("Dev to prev,")
-                    f.write("{0:.3f},".format(solver.deviations[k - 1]))
+                    f.write(f"{solver.deviations[k - 1]:.3f},")
                 if k < solver.blocks - 1:
                     f.write("Dev to next,")
-                    f.write("{0:.3f}".format(solver.deviations[k]))
+                    f.write(f"{solver.deviations[k]:.3f}")
                 f.write("\n")
                 for feat in feats:
                     f.write("," + feat)
@@ -258,7 +258,7 @@ class DataHandler(GraphStorage):
 
     def write_results(self, datafile, solver, splitter=","):
         run_time = datetime.datetime.now()
-        results_name = "results/%s_la%sbe%s_%s.csv" % (
+        results_name = "results/{}_la{}be{}_{}.csv".format(
             solver.__class__.__name__,
             int(solver.lambd),
             int(solver.beta),
@@ -285,10 +285,10 @@ class DataHandler(GraphStorage):
             f.write("Iterations to complete, %s\n\n" % solver.iteration)
             f.write("Correct positive edges, %s\n" % solver.correct_positives)
             f.write("All positives, %s\n" % solver.all_positives)
-            f.write("F1 Score, {0:.3f}\n".format(solver.f1score))
+            f.write(f"F1 Score, {solver.f1score:.3f}\n")
             try:
                 f.write(
-                    "Temporal deviations ratio (max/mean), {0:.3f}\n".format(
+                    "Temporal deviations ratio (max/mean), {:.3f}\n".format(
                         solver.dev_ratio
                     )
                 )
@@ -297,13 +297,13 @@ class DataHandler(GraphStorage):
             f.write("Temporal deviations ")
             for dev in solver.deviations:
                 try:
-                    f.write(",{0:.3f}".format(dev))
+                    f.write(f",{dev:.3f}")
                 except ValueError:
                     f.write(",%s" % dev)
             f.write("\nNormalized Temporal deviations ")
             for dev in solver.norm_deviations:
                 try:
-                    f.write(",{0:.3f}".format(dev))
+                    f.write(f",{dev:.3f}")
                 except ValueError:
                     f.write(",%s" % dev)
             f.write("\n")

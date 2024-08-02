@@ -1,15 +1,16 @@
-from dandi.dandiapi import DandiAPIClient
-from pynwb import NWBHDF5IO
+import warnings
+
+import numpy as np
+import pandas as pd
 import requests
 import xarray as xr
-import pandas as pd
-import numpy as np
+from dandi.dandiapi import DandiAPIClient
 
 # import numba as nb
 from numba import njit, prange
-from ..utils.utils import sizeof_fmt
+from pynwb import NWBHDF5IO
 
-import warnings
+from ..utils.utils import sizeof_fmt
 
 warnings.simplefilter("ignore")
 
@@ -31,7 +32,9 @@ class DandiHandler:
         self.data_array = None  # the spike counts data ("all data")
 
         self.metadata = dict()
-        self.metadata["ds_instance"] = requests.get(API_DANDIARCHIVE + dandiset_id + "/?format=json").json()
+        self.metadata["ds_instance"] = requests.get(
+            API_DANDIARCHIVE + dandiset_id + "/?format=json"
+        ).json()
 
         self.version2paths = dict()
 
@@ -70,17 +73,27 @@ class DandiHandler:
             raise ValueError("Please specify the filepath (use filepath='...').")
         self.filepath = filepath
         with DandiAPIClient() as client:
-            self.asset = client.get_dandiset(self.dandiset_id, version_id).get_asset_by_path(filepath)
-            self.s3_url = self.asset.get_content_url(follow_redirects=1, strip_query=True)
-        print(f"This dataset is of size {sizeof_fmt(self.asset.get_metadata().contentSize)}.")
+            self.asset = client.get_dandiset(
+                self.dandiset_id, version_id
+            ).get_asset_by_path(filepath)
+            self.s3_url = self.asset.get_content_url(
+                follow_redirects=1, strip_query=True
+            )
+        print(
+            f"This dataset is of size {sizeof_fmt(self.asset.get_metadata().contentSize)}."
+        )
         return self.s3_url
 
     def download(self):
         if self.s3_url is None:
-            raise FileNotFoundError("Please specify the s3_url (use the function get_s3_url(...)).")
+            raise FileNotFoundError(
+                "Please specify the s3_url (use the function get_s3_url(...))."
+            )
 
         if self.io is None:
-            self.io = NWBHDF5IO(self.s3_url, mode="r", load_namespaces=True, driver="ros3")
+            self.io = NWBHDF5IO(
+                self.s3_url, mode="r", load_namespaces=True, driver="ros3"
+            )
 
     def read(self):
         if self.io is None:
@@ -91,7 +104,11 @@ class DandiHandler:
     def get_behavior_labels(self, tag: str = "behavior"):
         if self.nwbfile is None:
             self.read()
-        self.behaviors = self.nwbfile.processing[tag].fields["data_interfaces"]["states"].to_dataframe()
+        self.behaviors = (
+            self.nwbfile.processing[tag]
+            .fields["data_interfaces"]["states"]
+            .to_dataframe()
+        )
         return self.behaviors
 
     def get_units(self):
@@ -138,10 +155,14 @@ class DandiHandler:
 
         container = np.zeros((n_neurons, n_time_intervals), dtype=np.float64)
         for i in range(n_neurons):
-            container[i, :] = self._get_spike_counts(n_time_intervals, self.units.iloc[:]["spike_times"][i], bv_t_itvls)
+            container[i, :] = self._get_spike_counts(
+                n_time_intervals, self.units.iloc[:]["spike_times"][i], bv_t_itvls
+            )
 
         neurons = [str(node) for node in range(len(self.units))]
-        times = pd.IntervalIndex.from_arrays(bv_t_itvls[:, 0], bv_t_itvls[:, 1], closed="left")
+        times = pd.IntervalIndex.from_arrays(
+            bv_t_itvls[:, 0], bv_t_itvls[:, 1], closed="left"
+        )
 
         self.data_array = xr.DataArray(
             container,

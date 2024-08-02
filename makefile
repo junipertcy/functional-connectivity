@@ -13,8 +13,7 @@ rebuild_h5py:
 	&& poetry shell \
 	&& echo "Installing h5py..." \
 	&& pip uninstall h5py -y \
-	&& pip install --no-binary=h5py h5py 
+	&& pip install --no-binary=h5py h5py
 
 
 .PHONY: all setup rebuild_h5py
-

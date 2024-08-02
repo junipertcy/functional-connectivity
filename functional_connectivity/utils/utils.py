@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 #
 # functional-connectivity -- Sensing functional connectivity in the brain, in Python
 #
@@ -17,9 +16,8 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
-import numpy as np
 import numba as nb
-import scipy.sparse as spr
+import numpy as np
 
 
 @nb.njit(parallel=True)
@@ -54,6 +52,7 @@ def sum_spike_count(df, n_chunks, log=True, mean=True):
         container = container / diff
     return container
 
+
 def sum_spike_count_by_behavior(df, n_chunks, behavior, log=True, mean=True):
     _max = 0
     for i in range(len(df)):
@@ -77,11 +76,9 @@ def sum_spike_count_by_behavior(df, n_chunks, behavior, log=True, mean=True):
     return container
 
 
-
 def sizeof_fmt(num, suffix="B"):
     for unit in ("", "K", "M", "G", "T", "P", "E", "Z"):
         if abs(num) < 1024.0:
             return f"{num:3.1f}{unit}{suffix}"
         num /= 1024.0
     return f"{num:.1f}Y{suffix}"
-

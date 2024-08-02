@@ -43,8 +43,8 @@ pip install -r requirements.txt
 
 Acknowledgement
 ---------------
-The functional-connectivity library is supported by [The Kavli Foundation](https://www.kavlifoundation.org/). 
-TCY wants to thank Rebecca Morrison ([@rebeccaem](https://github.com/rebeccaem)) and Stephen Becker ([@stephenbeckr](https://github.com/stephenbeckr)) for inspirations. 
+The functional-connectivity library is supported by [The Kavli Foundation](https://www.kavlifoundation.org/).
+TCY wants to thank Rebecca Morrison ([@rebeccaem](https://github.com/rebeccaem)) and Stephen Becker ([@stephenbeckr](https://github.com/stephenbeckr)) for inspirations.
 
 We also want to thank the authors in these software implementations:
 * [cvxgrp/strat_models](https://github.com/cvxgrp/strat_models)
