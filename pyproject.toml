@@ -1,16 +1,24 @@
 [build-system]
-requires = ["setuptools>=45", "setuptools_scm[toml]>=6.2"]
-build-backend = "setuptools.build_meta"
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
 
-[project]
+[tool.poetry]
 name = "functional-connectivity"
-authors = [{ name = "Tzu-Chi Yen", email = "tzuchi.yen@colorado.edu" }]
-description = "Sensing functional connectivity in the brain, in Python"
-requires-python = ">=3.10"
-license = {file = "LICENSE"}
-keywords = ['functional-connectivity', 'convex-optimization', 'graphical-models']
+version = "0.1.0"
+description = "Sensing the functional connectivity of the brain"
+authors = ["Tzu-Chi Yen <tzuchi.yen@colorado.edu>"]
+license = "LGPL-3.0-or-later"
+readme = "README.md"
+homepage = 'https://github.com/junipertcy/functional-connectivity'
+repository = 'https://github.com/junipertcy/functional-connectivity'
+documentation = 'https://docs.netscied.tw/functional-connectivity/index.html'
+keywords = [
+    'functional-connectivity',
+    'convex-optimization',
+    'graphical-models',
+]
 classifiers = [
-    'Development Status :: 5 - Production/Stable',
+    'Development Status :: 4 - Beta',
     'Intended Audience :: Science/Research',
     'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',
     'Natural Language :: English',
@@ -18,47 +26,80 @@ classifiers = [
     'Operating System :: POSIX',
     'Operating System :: Unix',
     'Operating System :: MacOS',
-    'Programming Language :: Python :: 3.10',
-    'Programming Language :: Python :: 3.11',
     'Programming Language :: Python :: 3.12',
     'Programming Language :: Python :: 3 :: Only',
     'Topic :: Scientific/Engineering',
     'Topic :: Software Development :: Libraries',
 ]
 
-dynamic = ["version"]
+[tool.poetry.dependencies]
+python = ">=3.12,<3.13"
+urllib3 = "^2.2.1"
+matplotlib = "^3.9.0"
+numpy = "^2.0.1"
+scikit-learn = "^1.5.0"
+numba = "^0.60.0"
+loky = "^3.4.1"
+xarray = "^2024.7.0"
+jupyterlab = "^4.2.1"
+nwbwidgets = "^0.11.3"
+dandi = "^0.62.4"
+h5py = "^3.11.0"
+networkx = "^3.3"
+black = "^24.8.0"
+ruff = "^0.5.6"
+pytest = "^8.3.2"
+pre-commit = "^3.8.0"
 
-dependencies = [
-    "urllib3 >= 2.2.1",
-    "matplotlib >= 3.9.0",
-    "numpy >= 1.26.4",
-    "scikit-learn >= 1.5.0",
-    "numba >= 0.59.1",
-    "loky >= 3.4.1",
-    "xarray >= 2024.5.0",
-    "jupyterlab >= 4.2.1",
-    "nwbwidgets >= 0.11.3",
-    "dandi >= 0.62.1",
-    "h5py >= 3.11.0",
-    "networkx >= 3.3",
-]
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.1"
+click = "^8.1.7"
+sphinx = "^7.2.6"
+sphinx_rtd_theme = "^2.0.0"
+myst-parser = "^3.0.1"
+intersphinx-registry = "^0.2406.4"
+numpydoc = "^1.7.0"
+sphinx-markdown-tables = "^0.0.17"
+recommonmark = "^0.7.1"
+mathjax = "^0.1.2"
+scalene = "^1.5.42"
+mypy = "^1.10.1"
+types-six = "^1.16.21"
+types-docutils = "^0.21.0.20240423"
+pipreqs = "^0.5.0"
 
-[project.optional-dependencies]
-dev = ["pytest >= 8.2.1", "click >= 8.1.7", "sphinx >= 7.2.6"]
-
-[project.urls]
-repository = 'https://github.com/junipertcy/functional-connectivity'
-documentation = 'https://docs.netscied.tw/functional-connectivity/index.html'
-
-[project.readme]
-file = "README.md"
-content-type = "text/markdown"
-
-[tool.setuptools]
-packages = ["functional_connectivity"]
-
-[tool.setuptools_scm]
-write_to = "functional_connectivity/_version.py"
 
 [tool.black]
-line-length = 120
+skip-string-normalization = true
+line-length = 88
+
+[tool.ruff.lint]
+exclude = ["docs/extlinks_fancy.py"]
+select = [
+    "E", # pycodestyle errors
+    "W", # pycodestyle warnings
+    "F", # pyflakes
+    "I", # isort
+    "C", # flake8-comprehensions
+    "B", # flake8-bugbear
+]
+ignore = [
+    "E501", # line too long, handled by black
+    "C901", # too complex
+    "F401",
+    "F403",
+    "I001", # isort will take care of this
+]
+
+[tool.ruff.lint.isort]
+order-by-type = true
+relative-imports-order = "closest-to-furthest"
+extra-standard-library = ["typing"]
+section-order = [
+    "future",
+    "standard-library",
+    "third-party",
+    "first-party",
+    "local-folder",
+]
+known-first-party = []
